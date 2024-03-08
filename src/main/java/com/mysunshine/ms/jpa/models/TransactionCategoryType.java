@@ -5,17 +5,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "transactionCategories")
-public class TransactionCategory extends IdEntity {
-    private Long category_name;
+@Table(name = "transaction_category_type")
+public class TransactionCategoryType extends IdEntity {
+    private String name;
     private String description;
 
-    public Long getCategory_name() {
-        return category_name;
+    public String getName() {
+        return name;
     }
 
-    public void setCategory_name(Long category_name) {
-        this.category_name = category_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {

@@ -1,5 +1,6 @@
 package com.mysunshine.ms.jpa.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.mysunshine.ms.jpa.IdEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -9,29 +10,31 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "transactions")
 public class Transaction extends IdEntity {
-    private Long transaction_date;
-    private Long transaction_type;
+    private Long transactionDate;
+    private Long transactionType;
     private Long amount;
     private String description;
-    private Long category_id;
+    private String categoryName;
+    private Long categoryId;
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Long getTransaction_date() {
-        return transaction_date;
+    public Long getTransactionDate() {
+        return transactionDate;
     }
 
-    public void setTransaction_date(Long transaction_date) {
-        this.transaction_date = transaction_date;
+    public void setTransactionDate(Long transactionDate) {
+        this.transactionDate = transactionDate;
     }
 
-    public Long getTransaction_type() {
-        return transaction_type;
+    public Long getTransactionType() {
+        return transactionType;
     }
 
-    public void setTransaction_type(Long transaction_type) {
-        this.transaction_type = transaction_type;
+    public void setTransactionType(Long transactionType) {
+        this.transactionType = transactionType;
     }
 
     public Long getAmount() {
@@ -50,12 +53,20 @@ public class Transaction extends IdEntity {
         this.description = description;
     }
 
-    public Long getCategory_id() {
-        return category_id;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategory_id(Long category_id) {
-        this.category_id = category_id;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public User getUser() {
