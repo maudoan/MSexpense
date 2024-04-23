@@ -20,6 +20,7 @@ public class Transaction extends IdEntity {
     @JsonBackReference
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+    private String icon;
 
     public Long getTransactionDate() {
         return transactionDate;
@@ -75,5 +76,13 @@ public class Transaction extends IdEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

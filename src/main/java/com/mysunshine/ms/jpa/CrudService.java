@@ -52,18 +52,22 @@ public abstract class CrudService<T extends IdEntity, ID extends Serializable> {
     }
 
     public T create(T entity) {
+        logger.info("Start Create ClassName #{} data #{}", typeParameterClass.getSimpleName(), entity);
         entity.setCreated(System.currentTimeMillis());
         if (entity.getCreatedBy() == null) {
             String currentUsername = SecurityUtils.getCurrentUserLogin();
             entity.setCreatedBy(currentUsername);
         }
         repository.save(entity);
+        logger.info("Create Success ClassName #{} data #{}", typeParameterClass.getSimpleName(), entity);
         return entity;
     }
     public void delete(ID id) {
         try {
             T entity = get(id);
-            repository.delete(entity);;
+            logger.info("Start Delete ClassName #{} data #{}", typeParameterClass.getSimpleName(), entity);
+            repository.delete(entity);
+            logger.info("Delete Success ClassName #{} data #{}", typeParameterClass.getSimpleName(), entity);
         } catch (DataIntegrityViolationException e) {
             ErrorInfo errorInfo = new ErrorInfo();
             errorInfo.setErrorKey(ErrorKey.CommonErrorKey.REMOVE_RELATIVE_ENTITY);
@@ -90,6 +94,7 @@ public abstract class CrudService<T extends IdEntity, ID extends Serializable> {
         }
 
         repository.save(entity);
+        logger.info("Update Success ClassName #{} data #{}", typeParameterClass.getSimpleName(), entity);
         return entity;
     }
     public PageInfo search(String query, Pageable pageable) {
@@ -103,6 +108,7 @@ public abstract class CrudService<T extends IdEntity, ID extends Serializable> {
         PageInfo pageInfo = new PageInfo();
         pageInfo.setTotalCount(page.getTotalElements());
         pageInfo.setData(ObjectMapperUtil.toJsonString(page.getContent()));
+        logger.info("ClassName #{} data #{}", typeParameterClass.getSimpleName(), pageInfo.getData());
         return pageInfo;
     }
 

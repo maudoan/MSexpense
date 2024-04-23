@@ -29,13 +29,13 @@ public class TransactionService extends CrudService<Transaction, Long> {
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + SecurityUtils.getCurrentUserLogin()));
 
         entity.setUser(user);
+        Long totalBalance;
         if(entity.getTransactionType() == 1) {
-            Long totalBalance = user.getTotalBalance() - entity.getAmount();
-            user.setTotalBalance(totalBalance);
+            totalBalance = user.getTotalBalance() - entity.getAmount();
         } else {
-            Long totalBalance = user.getTotalBalance() + entity.getAmount();
-            user.setTotalBalance(totalBalance);
+            totalBalance = user.getTotalBalance() + entity.getAmount();
         }
+        user.setTotalBalance(totalBalance);
         super.create(entity);
         return entity;
     }

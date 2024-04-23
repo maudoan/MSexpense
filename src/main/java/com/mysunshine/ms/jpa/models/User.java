@@ -1,6 +1,5 @@
 package com.mysunshine.ms.jpa.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mysunshine.ms.jpa.IdEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -39,9 +38,6 @@ public class User extends IdEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
-
-    @OneToMany(mappedBy = "user")
-    private List<TransactionCategoryParent> transactionCategoryParents;
 
     private Long totalBalance;
 
@@ -100,13 +96,5 @@ public class User extends IdEntity {
 
     public void setTotalBalance(Long totalBalance) {
         this.totalBalance = totalBalance;
-    }
-
-    public List<TransactionCategoryParent> getTransactionCategoryParents() {
-        return transactionCategoryParents;
-    }
-
-    public void setTransactionCategoryParents(List<TransactionCategoryParent> transactionCategoryParents) {
-        this.transactionCategoryParents = transactionCategoryParents;
     }
 }

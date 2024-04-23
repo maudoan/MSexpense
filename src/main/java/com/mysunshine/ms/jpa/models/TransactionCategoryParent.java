@@ -1,8 +1,10 @@
 package com.mysunshine.ms.jpa.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.mysunshine.ms.jpa.IdEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 import java.util.List;
 
@@ -15,11 +17,7 @@ public class TransactionCategoryParent extends IdEntity {
     private String icon;
     @OneToMany(mappedBy = "transactionCategoryParent", cascade = CascadeType.ALL)
     private List<TransactionCategoryChild> transactionCategoryChild;
-
-    @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Long userId;
     public String getName() {
         return name;
     }
@@ -52,12 +50,12 @@ public class TransactionCategoryParent extends IdEntity {
         this.transactionCategoryChild = transactionCategoryChild;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getIcon() {
