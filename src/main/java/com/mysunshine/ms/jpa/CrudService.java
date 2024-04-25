@@ -67,6 +67,7 @@ public abstract class CrudService<T extends IdEntity, ID extends Serializable> {
             T entity = get(id);
             logger.info("Start Delete ClassName #{} data #{}", typeParameterClass.getSimpleName(), entity);
             repository.delete(entity);
+            afterDelete(entity);
             logger.info("Delete Success ClassName #{} data #{}", typeParameterClass.getSimpleName(), entity);
         } catch (DataIntegrityViolationException e) {
             ErrorInfo errorInfo = new ErrorInfo();
@@ -74,6 +75,10 @@ public abstract class CrudService<T extends IdEntity, ID extends Serializable> {
             ErrorKey.processError(errorInfo);
         }
 
+    }
+
+    protected void afterDelete(T entity) {
+        // do something after delete
     }
 
     public T update(ID id, T entity) {

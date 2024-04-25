@@ -39,4 +39,18 @@ public class TransactionService extends CrudService<Transaction, Long> {
         super.create(entity);
         return entity;
     }
+
+    @Override
+    public void afterDelete(Transaction entity){
+        User user = userRepository.findByUsername(SecurityUtils.getCurrentUserLogin())
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + SecurityUtils.getCurrentUserLogin()));
+        Long totalBalance;
+        if(entity.getTransactionType() == 1) {
+            totalBalance = user.getTotalBalance() + entity.getAmount();
+        } else {
+            totalBalance = user.getTotalBalance() - entity.getAmount();
+        }
+        user.setTotalBalance(totalBalance);
+        userRepository.save(user);
+    }
 }
