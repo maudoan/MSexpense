@@ -59,8 +59,13 @@ public abstract class CrudService<T extends IdEntity, ID extends Serializable> {
             entity.setCreatedBy(currentUsername);
         }
         repository.save(entity);
+        afterCreate(entity);
         logger.info("Create Success ClassName #{} data #{}", typeParameterClass.getSimpleName(), entity);
         return entity;
+    }
+
+    protected void afterCreate(T entity) {
+        // do something after delete
     }
     public void delete(ID id) {
         try {

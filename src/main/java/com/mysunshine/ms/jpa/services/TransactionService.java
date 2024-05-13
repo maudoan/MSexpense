@@ -53,4 +53,9 @@ public class TransactionService extends CrudService<Transaction, Long> {
         user.setTotalBalance(totalBalance);
         userRepository.save(user);
     }
+
+    @Override
+    public void afterCreate(Transaction entity){
+
+    }
 }

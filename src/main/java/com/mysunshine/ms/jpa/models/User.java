@@ -1,5 +1,6 @@
 package com.mysunshine.ms.jpa.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mysunshine.ms.jpa.IdEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -28,6 +29,7 @@ public class User extends IdEntity {
 
     @NotBlank
     @Size(max = 120)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -40,6 +42,9 @@ public class User extends IdEntity {
     private List<Transaction> transactions;
 
     private Long totalBalance;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Budget> budgets;
 
     public User() {
     }
@@ -96,5 +101,13 @@ public class User extends IdEntity {
 
     public void setTotalBalance(Long totalBalance) {
         this.totalBalance = totalBalance;
+    }
+
+    public List<Budget> getBudgets() {
+        return budgets;
+    }
+
+    public void setBudgets(List<Budget> budgets) {
+        this.budgets = budgets;
     }
 }

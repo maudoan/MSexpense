@@ -21,6 +21,7 @@ public class Transaction extends IdEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     private String icon;
+    private Long budgetId;
 
     public Long getTransactionDate() {
         return transactionDate;
@@ -84,5 +85,13 @@ public class Transaction extends IdEntity {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public Long getBudgetId() {
+        return budgetId;
+    }
+
+    public void setBudgetId(Long budgetId) {
+        this.budgetId = budgetId;
     }
 }
