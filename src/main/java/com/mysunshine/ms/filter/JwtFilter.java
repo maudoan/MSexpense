@@ -1,7 +1,11 @@
 package com.mysunshine.ms.filter;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mysunshine.ms.constant.constants.Constants;
 import com.mysunshine.ms.jpa.repositories.impl.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -12,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -48,6 +53,16 @@ public class JwtFilter extends OncePerRequestFilter {
             }
         } catch (Exception e) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
+            final Map<String, Object> body = new HashMap<>();
+            body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
+            body.put("error", Constants.ACCESS_UNAUTHORIZED);
+            body.put("message", e.getMessage());
+            body.put("path", request.getServletPath());
+
+            final ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(response.getOutputStream(), body);
             return;
         }
 

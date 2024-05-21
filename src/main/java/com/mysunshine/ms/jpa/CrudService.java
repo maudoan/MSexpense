@@ -102,10 +102,19 @@ public abstract class CrudService<T extends IdEntity, ID extends Serializable> {
         if (entity.getCreatedBy() == null) {
             entity.setCreatedBy(old.getCreatedBy());
         }
-
+        beforeUpdate(entity);
         repository.save(entity);
+        afterUpdate(old, entity);
         logger.info("Update Success ClassName #{} data #{}", typeParameterClass.getSimpleName(), entity);
         return entity;
+    }
+
+    protected void beforeUpdate(T entity) {
+        // do something after delete
+    }
+
+    protected void afterUpdate(T old, T updated) {
+        // do something after delete
     }
     public PageInfo search(String query, Pageable pageable) {
         logger.info("Search Entity #{} with query #{}", typeParameterClass.getSimpleName(), query);

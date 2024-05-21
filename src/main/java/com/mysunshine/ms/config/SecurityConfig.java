@@ -1,5 +1,6 @@
 package com.mysunshine.ms.config;
 
+import com.mysunshine.ms.filter.AccessDeniedHandlerJwt;
 import com.mysunshine.ms.filter.AuthEntryPointJwt;
 import com.mysunshine.ms.filter.JwtFilter;
 import com.mysunshine.ms.jpa.repositories.impl.UserDetailsServiceImpl;
@@ -34,6 +35,9 @@ public class SecurityConfig { // extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
+
+    @Autowired
+    private AccessDeniedHandlerJwt accessDeniedHandlerJwt;
 
     @Bean
     public JwtFilter authenticationJwtTokenFilter() {
@@ -87,6 +91,7 @@ public class SecurityConfig { // extends WebSecurityConfigurerAdapter {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+                .exceptionHandling(exception -> exception.accessDeniedHandler(accessDeniedHandlerJwt))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/auth/login").permitAll()

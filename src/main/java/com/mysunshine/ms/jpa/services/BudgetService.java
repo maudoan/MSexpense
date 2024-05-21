@@ -36,7 +36,7 @@ public class BudgetService extends CrudService<Budget, Long> {
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + SecurityUtils.getCurrentUserLogin()));
 
         entity.setUser(user);
-
+        entity.setBudgetBalance(0L);
         super.create(entity);
         return entity;
     }
